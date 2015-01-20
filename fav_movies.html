@@ -49,7 +49,7 @@ var pics = bodyDiv.querySelectorAll("img");
 var movs = ["gladiator" , "spartacus", "the barbarians" , "demetrius and the gladiators" , "gladiators of rome","sheba and the gladiator"
 ,"the two gladiators" , "the ten gladiators","hercules the avenger"];
 
-var shit = function(){
+var apiRequester = function(){
   if (i < movs.length){
   var title = movs[i];
   var pic = pics[i];
@@ -58,7 +58,7 @@ var shit = function(){
   xhr.open("GET", url);
   xhr.onreadystatechange = function() {
     if (xhr.readyState==4){
-      setTimeout(shit,0);
+      setTimeout(apiRequester,0);
       var d = xhr.responseText;
       var parsed = JSON.parse(d);
       pic.src = parsed.Poster
@@ -83,7 +83,7 @@ var flop = function(){
 }else{
   y=0;
   cover.style.top = "0px";
-  clearInterval(fuck);}
+  clearInterval(flopper);}
 }
 
 var flopInt = function(name){
@@ -93,7 +93,7 @@ var flopInt = function(name){
   plot.innerText = info.Plot;
   year.innerText = info.Year;
   poster.src = info.Poster;
-  fuck = setInterval(flop,1);
+  flopper = setInterval(flop,1);
 };
 
 
@@ -105,16 +105,16 @@ var flip = function(){
     cover.style.top = topValue + "px";
   }else{
     y = 1000;
-    clearInterval(shit);
+    clearInterval(flipper);
   }
 }
 var flipInt = function(){
-  shit = setInterval(flip,1)};
+  flipper = setInterval(flip,1)};
 
 
 cover.addEventListener("click", flipInt);
 
-shit();
+apiRequester();
 </script>
 
 </body>
