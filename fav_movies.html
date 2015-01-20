@@ -1,0 +1,121 @@
+<html>
+<head>
+<title>Movies that Kyle likes</title>
+
+<link rel="stylesheet" type="text/css" href="style.css"/>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.9.0.js"></script>
+</head>
+<body>
+
+  <div id="page">
+    <div id="cover" class="over">
+      <img id ="poster"/>
+      <div id="description">
+        <p id="titleToPrint"></p>
+        <p id="year"></p>
+        <p id="plot"></p>
+      </div>
+    </div>
+    <header id="head"><h1>Best Movies Ever</h1></header>
+    </br>
+
+    <div id="bodyDiv">
+      <img class="lobby"/>
+      <img class="lobby"/>
+      <img class="lobby"/>
+      <img class="lobby"/>
+      <img class="lobby"/>
+      <img class="lobby"/>
+      <img class="lobby"/>
+      <img class="lobby"/>
+      <img class="lobby"/>
+
+  </div>
+</div>
+
+
+
+<script>
+var y = 1000;
+var i = 0;
+var xhr = new XMLHttpRequest();
+var infoObj = {};
+var titleToPrint = document.getElementById("titleToPrint");
+var year = document.getElementById("year");
+var plot = document.getElementById("plot");
+var bodyDiv = document.getElementById("bodyDiv");
+var cover = document.getElementById("cover");
+var pics = bodyDiv.querySelectorAll("img");
+var movs = ["gladiator" , "spartacus", "the barbarians" , "demetrius and the gladiators" , "gladiators of rome","sheba and the gladiator"
+,"the two gladiators" , "the ten gladiators","hercules the avenger"];
+
+var shit = function(){
+  if (i < movs.length){
+  var title = movs[i];
+  var pic = pics[i];
+  var titleToFind = encodeURI(title);
+  var url = "http://omdbapi.com/?t=" + titleToFind;
+  xhr.open("GET", url);
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState==4){
+      setTimeout(shit,0);
+      var d = xhr.responseText;
+      var parsed = JSON.parse(d);
+      pic.src = parsed.Poster
+      pic.id = "pic" + i;
+      infoObj[pic.id] = parsed;
+      pic.addEventListener("click", function(){flopInt(pic.id)});
+      load = true;
+      i = i+1;
+    }
+  }
+  xhr.send();
+}
+}
+
+var flop = function(){
+  console.log("hi there")
+  if(y > 0){
+  y = y - 18;
+  var topValue = y.toString();
+  console.log(topValue);
+  cover.style.top = topValue + "px";
+}else{
+  y=0;
+  cover.style.top = "0px";
+  clearInterval(fuck);}
+}
+
+var flopInt = function(name){
+  console.log(name);
+  var info = infoObj[name];
+  titleToPrint.innerText = info.Title;
+  plot.innerText = info.Plot;
+  year.innerText = info.Year;
+  poster.src = info.Poster;
+  fuck = setInterval(flop,1);
+};
+
+
+var flip = function(){
+  if(y < 1000){
+    y = y + 18;
+    var topValue = y.toString();
+    console.log(topValue);
+    cover.style.top = topValue + "px";
+  }else{
+    y = 1000;
+    clearInterval(shit);
+  }
+}
+var flipInt = function(){
+  shit = setInterval(flip,1)};
+
+
+cover.addEventListener("click", flipInt);
+
+shit();
+</script>
+
+</body>
+</html>
